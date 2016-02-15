@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+#include <cmath>
+#include <bitset>
+using namespace std;
+int dp,dn;
+int find(int k)
+{
+    int i=0;
+    while((k=k>>1)>0)
+    {
+        i++;
+    }
+    return i;
+}
+
+void msg_check(int tmp1,int tmp2)
+{
+	int i=0;
+	while(i<=(dn-dp))
+    {
+        if((tmp1>>(dn-dp-i))>=pow(2,dp))
+        {
+            tmp1=(tmp1^tmp2);
+        }
+        else
+        {
+            tmp1=(tmp1^0);
+        }
+	    i++;
+        tmp2=tmp2>>1;
+        cout<<std::bitset<20>(tmp1)<<endl;
+    }
+    if(tmp1==0)
+    	cout<<"no Error\n";
+    else
+    	cout<<"Error Occured\n";
+}
+
+int main()
+{
+	int m,n,o,tmp;
+	cout<<"Enter the data to be transferred \n";
+	cin>>n;
+	cout<<std::bitset<20>(n)<<endl;
+	cout<<"Enter the polynomial to agree \n";
+	cin>>m;
+	cout<<std::bitset<20>(m)<<endl;
+	int tmp1;
+	dp=find(m);
+	cout<<dp<<endl;
+	tmp1=n<<dp;
+	dn=find(tmp1);
+	int tmp2=m<<(dn-dp);
+	cout<<std::bitset<20>(tmp1)<<endl;
+	cout<<std::bitset<20>(tmp2)<<endl;
+	int i=0;
+	while(i<=(dn-dp))
+    {
+        if((tmp1>>(dn-dp-i))>=pow(2,dp))
+        {
+            tmp1=(tmp1^tmp2);
+        }
+        else
+        {
+            tmp1=(tmp1^0);
+        }
+	    i++;
+        tmp2=tmp2>>1;
+        cout<<std::bitset<20>(tmp1)<<endl;
+    }
+    cout<<"Final message is \n";
+    cout<<std::bitset<20>((n<<dp)^tmp1)<<endl;
+    cout<<"checking \n";
+    int tmp3=((n<<dp)^tmp1);
+    tmp2=m<<(dn-dp);
+    msg_check(tmp3,tmp2);
+}
